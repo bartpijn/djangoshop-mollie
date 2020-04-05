@@ -1,11 +1,11 @@
 # djangoshop-mollie
 Mollie Payment Provider Plug-in for Django-Shop version 1.0 and above
 
-BE AWARE: this project is not tested properly
+BE AWARE: this project is in its development phase
 
 ## Installation
 
-for django-shop version 1.0.x:
+for django-shop version 1.x.x
 
 ```
 pip install djangoshop-mollie<1.1 (not available yet)
