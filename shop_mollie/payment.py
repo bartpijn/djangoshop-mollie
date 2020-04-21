@@ -57,7 +57,7 @@ class MolliePayment(PaymentProvider):
             'metadata': {
                 'order_id': order.get_number(),
             },
-            'method': settings.SHOP_MOLLIE['MOLLIE_PAYMENT_METHODS'], #array of payment methods via Mollie
+            'method': settings.SHOP_MOLLIE['MOLLIE_PAYMENT_METHODS'], 
         }
         payment = mollie_client.payments.create(payment_data)
         return payment
@@ -73,7 +73,7 @@ class MolliePayment(PaymentProvider):
 
     
     @classmethod
-    def mollie_webhook(cls, request): #with unique identifier off the payment
+    def mollie_webhook(cls, request): 
         '''
         Mollie calls the webhook when the payment status changes.
         Here the call is commited to the Database.
@@ -86,9 +86,11 @@ class MolliePayment(PaymentProvider):
         order = OrderModel.objects.get(slug=payment.metadata['order_id']) 
         
         if payment.is_paid():
-            order.add_mollie_payment(payment) # does this add the payment?
+            order.add_mollie_payment(payment) 
             order.extra['transaction_id'] = payment_id
             order.save(with_notification=True)
+            if order.is_fully_paid(): #should always hold
+                order.acknowledge_mollie_payment()
             return HttpResponse('Paid')
         elif payment.is_pending():
             #
