@@ -86,7 +86,7 @@ class MolliePayment(PaymentProvider):
         order = OrderModel.objects.get(slug=payment.metadata['order_id']) 
         
         if payment.is_paid():
-            order.add_mollie_payment(payment) # does this add the payment?
+            order.add_mollie_payment(payment) 
             order.extra['transaction_id'] = payment_id
             order.save(with_notification=True)
             return HttpResponse('Paid')
@@ -94,7 +94,7 @@ class MolliePayment(PaymentProvider):
             #
             # The payment has started but is not complete yet. 
             #
-            order.add_mollie_payment(payment) # does this add the payment?
+            order.add_mollie_payment(payment) 
             order.extra['transaction_id'] = payment_id
             order.save(with_notification=False)
             return HttpResponse('Pending')
@@ -102,7 +102,7 @@ class MolliePayment(PaymentProvider):
             #
             # The payment has not started yet. Wait for it.
             #
-            order.add_mollie_payment(payment) # does this add the payment?
+            order.add_mollie_payment(payment) 
             order.extra['transaction_id'] = payment_id
             order.save(with_notification=False)
             return HttpResponse('Open')
